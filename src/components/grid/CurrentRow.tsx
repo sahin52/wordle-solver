@@ -13,13 +13,11 @@ export const CurrentRow = ({ guess, className, row, setCurrentAppearances}: Prop
   const splitGuess = guess.split('')
   const emptyCells = Array.from(Array(MAX_WORD_LENGTH - splitGuess.length))
   const classes = `flex justify-center mb-1 ${className}`
-console.log("CurrentRoww")
-console.log(splitGuess);
+
   return (
     <div className={classes}>
       {splitGuess.map((letter, i) => {
-        console.log("i")
-        console.log(i)
+
         return(
         <Cell keyy={i} key={i} value={letter} row={row} setCurrentAppearances={setCurrentAppearances}/>
       )})}

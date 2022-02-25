@@ -59,19 +59,14 @@ export const Cell = ({
       className={classes}
       onClick={() => {
         if(setCurrentAppearances){
-          console.log("row")
           setCurrentAppearances(row!,keyy!,getNextColor(currentColor));
           setCurrentColor(getNextColor(currentColor));
         }
-        console.log('your moms')
       }}
       style={{ animationDelay }}
     >
       <div
         className="letter-container"
-        onClick={() => {
-          console.log('your mom')
-        }}
         style={{ animationDelay }}
       >
         {value}

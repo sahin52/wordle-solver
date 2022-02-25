@@ -11,8 +11,6 @@ type Props = {
 
 export const CompletedRow = ({ guess, isRevealing, keyy, setCurrentAppearances }: Props) => {
   const statuses = getGuessStatuses(guess)
-  console.log(keyy);
-  console.log("key");
   return (
     <div className="flex justify-center mb-1">
       {guess.split('').map((letter, i) => (
