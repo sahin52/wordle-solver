@@ -42,7 +42,7 @@ import {
 import './App.css'
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { useAlert } from './context/AlertContext'
-import { SolverTest } from './lib/solver'
+import { Solver, SolverTest, Wordle } from './lib/solver'
 import { WordsModal } from './components/modals/WordsModal'
 export type Appearance = 'green' | 'gray' | 'yellow'
 function App() {
@@ -85,14 +85,9 @@ function App() {
     'gray',
     'gray',
   ])
-  useCallback(() => {
-    console.log('buraya girmesi gerek')
-    console.log(appearances)
-  }, [appearances])
+  
   function setCurrentAppearances(i: number, j: number, appearance: Appearance) {
-    console.log(i)
-    console.log(j)
-    console.log('burada')
+
     let temp = appearances
     temp[i * 5 + j] = appearance
     setAppearances(temp)
@@ -102,6 +97,7 @@ function App() {
     console.log(appearances)
   }
   const [isGameWon, setIsGameWon] = useState(false)
+  const [possibleWords,setPossibleWords] = useState<string[]>(["deneme","1","2"])
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isWordsModalOpen,setIsWordsModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
@@ -222,7 +218,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    if (!(currentGuess.length === MAX_WORD_LENGTH)) {
+    if (currentGuess.length!==0 && !(currentGuess.length === MAX_WORD_LENGTH)) {
       showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -230,7 +226,7 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    if (!isWordInWordList(currentGuess)) {
+    if (currentGuess.length!==0 && !isWordInWordList(currentGuess)) {
       showErrorAlert(WORD_NOT_FOUND_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -238,24 +234,26 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    // enforce hard mode - all guesses must contain all previously revealed letters
-    setIsWordsModalOpen(true);
-    setIsRevealing(true)
-    // turn this back off after all
-    // chars have been revealed
-    setTimeout(() => {
-      setIsRevealing(false)
-    }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
-
+    
     const winningWord = isWinningWord(currentGuess)
 
     if (
-      currentGuess.length === MAX_WORD_LENGTH &&
+      (currentGuess.length === MAX_WORD_LENGTH || currentGuess.length===0) &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
-      setGuesses([...guesses, currentGuess])
+      if(currentGuess.length === MAX_WORD_LENGTH)
+        setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
+      console.log("guesses");
+      console.log(guesses);
+      // enforce hard mode - all guesses must contain all previously revealed letters
+      let wordles: Wordle[] = guesses.map((guess,i)=>{return {word:guess,appearances:appearances.slice(5*i,5+5*i)}});
+      console.log("wordles");
+      console.log(wordles);
+      setPossibleWords(Solver(wordles))
+      setIsWordsModalOpen(true);
+      
 
       if (winningWord) {
         setStats(addStatsForCompletedGame(stats, guesses.length))
@@ -324,6 +322,7 @@ function App() {
         handleClose={() => setIsWordsModalOpen(false)}
         isDarkMode={isDarkMode}
         handleDarkMode={handleDarkMode} 
+        possibleWords={possibleWords}
         />
       <SettingsModal
         isOpen={isSettingsModalOpen}

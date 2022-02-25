@@ -1,16 +1,19 @@
 import { VALID_GUESSES } from '../constants/validGuesses'
 
-type Wordle = {
+export type Wordle = {
   word: string
   appearances: ('yellow' | 'green' | 'gray')[]
 }
-async function read() {
+function read() {
   let data = VALID_GUESSES
   return data
 }
-export async function Solver(input: Wordle[]): Promise<string[]> {
-  let possibleWords = await read()
+export function Solver(input: Wordle[]): string[] {
+  let possibleWords = read()
   //filter greens
+  input.forEach((wordle,i)=>{
+    input[i].word=input[i].word.toLowerCase();
+  })
   possibleWords = filterGreens(possibleWords, input)
 
   // filter yellows
@@ -73,7 +76,7 @@ export async function Solver(input: Wordle[]): Promise<string[]> {
   console.log(possibleWords.slice((possibleWords.length>100?possibleWords.length:100) - 100))
   return possibleWords
 }
-export async function SolverTest() {
+export function SolverTest() {
   // console.log('solver testing')
   let w: Wordle[] = [
     // { word: 'whore', appearances: ['gray', 'green', 'gray', 'gray', 'gray'] },
@@ -97,7 +100,7 @@ export async function SolverTest() {
     // { word: 'shuts', appearances: ['gray', 'green', 'green', 'yellow', 'gray']},
     // { word: 'swink', appearances: ['green', 'green', 'green', 'gray', 'gray'] },
   ]
-  let res = await Solver(w);
+  let res = Solver(w);
 }
 
 function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
