@@ -11,8 +11,8 @@ function read() {
 export function Solver(input: Wordle[]): string[] {
   let possibleWords = read()
   //filter greens
-  input.forEach((wordle,i)=>{
-    input[i].word=input[i].word.toLowerCase();
+  input.forEach((wordle, i) => {
+    input[i].word = input[i].word.toLowerCase()
   })
   possibleWords = filterGreens(possibleWords, input)
 
@@ -73,7 +73,11 @@ export function Solver(input: Wordle[]): string[] {
   //     }
   // }
 
-  console.log(possibleWords.slice((possibleWords.length>100?possibleWords.length:100) - 100))
+  console.log(
+    possibleWords.slice(
+      (possibleWords.length > 100 ? possibleWords.length : 100) - 100
+    )
+  )
   return possibleWords
 }
 export function SolverTest() {
@@ -95,12 +99,12 @@ export function SolverTest() {
     {
       word: 'camel',
       appearances: ['gray', 'gray', 'green', 'green', 'gray'],
-    }
-    
+    },
+
     // { word: 'shuts', appearances: ['gray', 'green', 'green', 'yellow', 'gray']},
     // { word: 'swink', appearances: ['green', 'green', 'green', 'gray', 'gray'] },
   ]
-  let res = Solver(w);
+  let res = Solver(w)
 }
 
 function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
@@ -111,11 +115,12 @@ function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
   //getGreensPlaces
   let greensAndPlaces = getGreensAndPlaces(wordles)
 
-  greensAndPlaces.forEach(greenAndPlace=>{
-    possibleWords = possibleWords.filter(word=>word[greenAndPlace.konum]===greenAndPlace.harf);
+  greensAndPlaces.forEach((greenAndPlace) => {
+    possibleWords = possibleWords.filter(
+      (word) => word[greenAndPlace.konum] === greenAndPlace.harf
+    )
   })
-  return possibleWords;
-
+  return possibleWords
 
   function getGreensAndPlaces(wordles: Wordle[]) {
     let greensPlaces: KonumVeHarf[] = []
@@ -158,5 +163,3 @@ function filterBlacks(possibleWords: string[], input: Wordle[]): string[] {
 
   return []
 }
-
-

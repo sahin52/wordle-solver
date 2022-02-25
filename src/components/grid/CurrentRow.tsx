@@ -5,11 +5,16 @@ import { Cell } from './Cell'
 type Props = {
   guess: string
   className: string
-  setCurrentAppearances: (i: number, j: number, appearance: Appearance)=> void
+  setCurrentAppearances: (i: number, j: number, appearance: Appearance) => void
   row: number
 }
 
-export const CurrentRow = ({ guess, className, row, setCurrentAppearances}: Props) => {
+export const CurrentRow = ({
+  guess,
+  className,
+  row,
+  setCurrentAppearances,
+}: Props) => {
   const splitGuess = guess.split('')
   const emptyCells = Array.from(Array(MAX_WORD_LENGTH - splitGuess.length))
   const classes = `flex justify-center mb-1 ${className}`
@@ -17,12 +22,23 @@ export const CurrentRow = ({ guess, className, row, setCurrentAppearances}: Prop
   return (
     <div className={classes}>
       {splitGuess.map((letter, i) => {
-
-        return(
-        <Cell keyy={i} key={i} value={letter} row={row} setCurrentAppearances={setCurrentAppearances}/>
-      )})}
+        return (
+          <Cell
+            keyy={i}
+            key={i}
+            value={letter}
+            row={row}
+            setCurrentAppearances={setCurrentAppearances}
+          />
+        )
+      })}
       {emptyCells.map((_, i) => (
-        <Cell keyy={i} key={i} row={row} setCurrentAppearances={setCurrentAppearances}/>
+        <Cell
+          keyy={i}
+          key={i}
+          row={row}
+          setCurrentAppearances={setCurrentAppearances}
+        />
       ))}
     </div>
   )

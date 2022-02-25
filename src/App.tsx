@@ -85,9 +85,8 @@ function App() {
     'gray',
     'gray',
   ])
-  
-  function setCurrentAppearances(i: number, j: number, appearance: Appearance) {
 
+  function setCurrentAppearances(i: number, j: number, appearance: Appearance) {
     let temp = appearances
     temp[i * 5 + j] = appearance
     setAppearances(temp)
@@ -97,9 +96,10 @@ function App() {
     console.log(appearances)
   }
   const [isGameWon, setIsGameWon] = useState(false)
-  const [possibleWords,setPossibleWords] = useState<string[]>(["deneme","1","2"])
+  const [possibleWords, setPossibleWords] = useState<string[]>([
+  ])
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
-  const [isWordsModalOpen,setIsWordsModalOpen] = useState(false);
+  const [isWordsModalOpen, setIsWordsModalOpen] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
@@ -218,7 +218,10 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    if (currentGuess.length!==0 && !(currentGuess.length === MAX_WORD_LENGTH)) {
+    if (
+      currentGuess.length !== 0 &&
+      !(currentGuess.length === MAX_WORD_LENGTH)
+    ) {
       showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -226,7 +229,7 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    if (currentGuess.length!==0 && !isWordInWordList(currentGuess)) {
+    if (currentGuess.length !== 0 && !isWordInWordList(currentGuess)) {
       showErrorAlert(WORD_NOT_FOUND_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -234,26 +237,26 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    
     const winningWord = isWinningWord(currentGuess)
 
     if (
-      (currentGuess.length === MAX_WORD_LENGTH || currentGuess.length===0) &&
+      (currentGuess.length === MAX_WORD_LENGTH || currentGuess.length === 0) &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
-      if(currentGuess.length === MAX_WORD_LENGTH)
+      if (currentGuess.length === MAX_WORD_LENGTH)
         setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
-      console.log("guesses");
-      console.log(guesses);
+      console.log('guesses')
+      console.log(guesses)
       // enforce hard mode - all guesses must contain all previously revealed letters
-      let wordles: Wordle[] = guesses.map((guess,i)=>{return {word:guess,appearances:appearances.slice(5*i,5+5*i)}});
-      console.log("wordles");
-      console.log(wordles);
+      let wordles: Wordle[] = guesses.map((guess, i) => {
+        return { word: guess, appearances: appearances.slice(5 * i, 5 + 5 * i) }
+      })
+      console.log('wordles')
+      console.log(wordles)
       setPossibleWords(Solver(wordles))
-      setIsWordsModalOpen(true);
-      
+      setIsWordsModalOpen(true)
 
       if (winningWord) {
         setStats(addStatsForCompletedGame(stats, guesses.length))
@@ -299,11 +302,7 @@ function App() {
         setCurrentAppearances={setCurrentAppearances}
       />
       {/* //TODO */}
-      <Keyboard
-        onChar={onChar}
-        onDelete={onDelete}
-        onEnter={onEnter}
-      />
+      <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
       <InfoModal
         isOpen={isInfoModalOpen}
         handleClose={() => setIsInfoModalOpen(false)}
@@ -317,13 +316,13 @@ function App() {
         isGameWon={isGameWon}
         handleShare={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
       />
-      <WordsModal 
+      <WordsModal
         isOpen={isWordsModalOpen}
         handleClose={() => setIsWordsModalOpen(false)}
         isDarkMode={isDarkMode}
-        handleDarkMode={handleDarkMode} 
+        handleDarkMode={handleDarkMode}
         possibleWords={possibleWords}
-        />
+      />
       <SettingsModal
         isOpen={isSettingsModalOpen}
         handleClose={() => setIsSettingsModalOpen(false)}

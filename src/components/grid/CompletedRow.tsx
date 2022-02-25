@@ -6,15 +6,20 @@ type Props = {
   guess: string
   isRevealing?: boolean
   keyy: number
-  setCurrentAppearances: (i: number, j: number, appearance: Appearance)=> void
+  setCurrentAppearances: (i: number, j: number, appearance: Appearance) => void
 }
 
-export const CompletedRow = ({ guess, isRevealing, keyy, setCurrentAppearances }: Props) => {
+export const CompletedRow = ({
+  guess,
+  isRevealing,
+  keyy,
+  setCurrentAppearances,
+}: Props) => {
   const statuses = getGuessStatuses(guess)
   return (
     <div className="flex justify-center mb-1">
       {guess.split('').map((letter, i) => (
-        <Cell 
+        <Cell
           key={i}
           keyy={i}
           row={keyy}
