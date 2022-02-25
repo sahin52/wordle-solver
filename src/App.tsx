@@ -43,6 +43,7 @@ import './App.css'
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { useAlert } from './context/AlertContext'
 import { SolverTest } from './lib/solver'
+import { WordsModal } from './components/modals/WordsModal'
 export type Appearance = 'green' | 'gray' | 'yellow'
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -102,6 +103,7 @@ function App() {
   }
   const [isGameWon, setIsGameWon] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+  const [isWordsModalOpen,setIsWordsModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
@@ -237,7 +239,7 @@ function App() {
     }
 
     // enforce hard mode - all guesses must contain all previously revealed letters
-
+    setIsWordsModalOpen(true);
     setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
@@ -304,7 +306,6 @@ function App() {
         onDelete={onDelete}
         onEnter={onEnter}
         guesses={guesses}
-        isRevealing={isRevealing}
       />
       <InfoModal
         isOpen={isInfoModalOpen}
@@ -319,10 +320,15 @@ function App() {
         isGameWon={isGameWon}
         handleShare={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
       />
+      <WordsModal 
+        isOpen={isWordsModalOpen}
+        handleClose={() => setIsWordsModalOpen(false)}
+        isDarkMode={isDarkMode}
+        handleDarkMode={handleDarkMode} 
+        />
       <SettingsModal
         isOpen={isSettingsModalOpen}
         handleClose={() => setIsSettingsModalOpen(false)}
-        handleHardMode={handleHardMode}
         isDarkMode={isDarkMode}
         handleDarkMode={handleDarkMode}
         isHighContrastMode={isHighContrastMode}

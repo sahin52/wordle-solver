@@ -8,7 +8,6 @@ type Props = {
   onDelete: () => void
   onEnter: () => void
   guesses: string[]
-  isRevealing?: boolean
 }
 
 export const Keyboard = ({
@@ -16,7 +15,6 @@ export const Keyboard = ({
   onDelete,
   onEnter,
   guesses,
-  isRevealing,
 }: Props) => {
   const charStatuses = getStatuses(guesses)
 
@@ -58,7 +56,6 @@ export const Keyboard = ({
             key={key}
             onClick={onClick}
             status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
       </div>
@@ -69,7 +66,6 @@ export const Keyboard = ({
             key={key}
             onClick={onClick}
             status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
       </div>
@@ -83,7 +79,6 @@ export const Keyboard = ({
             key={key}
             onClick={onClick}
             status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
         <Key width={65.4} value="DELETE" onClick={onClick}>
