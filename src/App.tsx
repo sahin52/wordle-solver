@@ -305,7 +305,6 @@ function App() {
         onChar={onChar}
         onDelete={onDelete}
         onEnter={onEnter}
-        guesses={guesses}
       />
       <InfoModal
         isOpen={isInfoModalOpen}
