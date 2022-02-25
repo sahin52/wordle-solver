@@ -9,7 +9,7 @@ type Props = {
   currentGuess: string
   isRevealing?: boolean
   currentRowClassName: string
-  setCurrentAppearances: (i: number, j: number, appearance: Appearance)=> void
+  setCurrentAppearances: (i: number, j: number, appearance: Appearance) => void
 }
 
 export const Grid = ({

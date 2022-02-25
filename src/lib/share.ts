@@ -4,14 +4,11 @@ import { GAME_TITLE } from '../constants/strings'
 import { getStoredIsHighContrastMode } from './localStorage'
 import { MAX_CHALLENGES } from '../constants/settings'
 
-export const shareStatus = (
-  guesses: string[],
-  lost: boolean) => {
+export const shareStatus = (guesses: string[], lost: boolean) => {
   navigator.clipboard.writeText(
     `${GAME_TITLE} ${solutionIndex} ${
       lost ? 'X' : guesses.length
-    }/${MAX_CHALLENGES}\n\n` +
-      generateEmojiGrid(guesses)
+    }/${MAX_CHALLENGES}\n\n` + generateEmojiGrid(guesses)
   )
 }
 
