@@ -96,8 +96,7 @@ function App() {
     console.log(appearances)
   }
   const [isGameWon, setIsGameWon] = useState(false)
-  const [possibleWords, setPossibleWords] = useState<string[]>([
-  ])
+  const [possibleWords, setPossibleWords] = useState<string[]>([])
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isWordsModalOpen, setIsWordsModalOpen] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
