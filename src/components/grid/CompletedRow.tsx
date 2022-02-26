@@ -1,5 +1,5 @@
 import { Appearance } from '../../App'
-import { getGuessStatuses } from '../../lib/statuses'
+import { CharStatus } from '../../lib/statuses'
 import { Cell } from './Cell'
 
 type Props = {
@@ -15,7 +15,7 @@ export const CompletedRow = ({
   keyy,
   setCurrentAppearances,
 }: Props) => {
-  const statuses = getGuessStatuses(guess)
+  const statuses:CharStatus[] = [1,2,3,4,5].map(i=>'absent')
   return (
     <div className="flex justify-center mb-1">
       {guess.split('').map((letter, i) => (

@@ -7,25 +7,20 @@ import { useState, useEffect } from 'react'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
 import { InfoModal } from './components/modals/InfoModal'
-import { StatsModal } from './components/modals/StatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
 import {
   GAME_TITLE,
-  WIN_MESSAGES,
-  GAME_COPIED_MESSAGE,
+
   NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
+  WORD_NOT_FOUND_MESSAGE
 } from './constants/strings'
 import {
   MAX_WORD_LENGTH,
   MAX_CHALLENGES,
   ALERT_TIME_MS,
-  REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
 } from './constants/settings'
-import { isWordInWordList, isWinningWord, solution } from './lib/words'
-import { addStatsForCompletedGame, loadStats } from './lib/stats'
+import { isWordInWordList } from './lib/words'
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
@@ -89,7 +84,6 @@ function App() {
     console.log('appearances')
     console.log(appearances)
   }
-  const [isGameWon, setIsGameWon] = useState(false)
   const [possibleWords, setPossibleWords] = useState<string[]>([])
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isWordsModalOpen, setIsWordsModalOpen] = useState(false)
@@ -110,7 +104,6 @@ function App() {
 
   const [isRevealing, setIsRevealing] = useState(false)
 
-  const [stats, setStats] = useState(() => loadStats())
 
   useEffect(() => {
     // if no game state on load,
@@ -146,23 +139,13 @@ function App() {
   }
 
   useEffect(() => {
-    if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
-
-      showSuccessAlert(winMessage, {
-        delayMs,
-        onClose: () => setIsStatsModalOpen(true),
-      })
-    }
 
     if (isGameLost) {
       setTimeout(() => {
         setIsStatsModalOpen(true)
       }, GAME_LOST_INFO_DELAY)
     }
-  }, [isGameWon, isGameLost, showSuccessAlert])
+  }, [isGameLost, showSuccessAlert])
 
   const onChar = (value: string) => {
     if (
@@ -179,7 +162,7 @@ function App() {
 
   const onEnter = () => {
     //TODO
-    if (isGameWon || isGameLost) {
+    if (isGameLost) {
       return
     }
     if (
