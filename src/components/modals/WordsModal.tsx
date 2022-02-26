@@ -13,10 +13,11 @@ export const WordsModal = ({
   handleClose,
   possibleWords,
 }: Props) => {
+  const shuffled = possibleWords.sort(() => 0.5 - Math.random());
   return (
     <BaseModal title="Possible Words" isOpen={isOpen} handleClose={handleClose}>
       <div className="grid-cols-2 gap-4">
-        {possibleWords.slice(0, 10).map((word, i) => (
+        {shuffled.slice(0, 10).map((word, i) => (
           <p key={i}>{word}</p>
         ))}
       </div>

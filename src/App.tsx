@@ -178,9 +178,8 @@ function App() {
       if (currentGuesses.length === MAX_WORD_LENGTH) {
       }
 
-      //setCurrentGuesses('') //TODO
-      console.log('guesses')
-      console.log(getGueesesFromCurGuess(currentGuesses))
+
+
       // enforce hard mode - all guesses must contain all previously revealed letters
       let wordles: Wordle[] = getGueesesFromCurGuess(currentGuesses).map(
         (guess, i) => {
@@ -190,12 +189,10 @@ function App() {
           }
         }
       )
-      console.log('wordles')
-      console.log(wordles)
       setPossibleWords(Solver(wordles))
       setIsWordsModalOpen(true)
     }
-  } //TODO
+  } 
 
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -212,14 +209,12 @@ function App() {
           onClick={() => setIsSettingsModalOpen(true)}
         />
       </div>
-      {/* //TODO */}
       <Grid
         guesses={getGueesesFromCurGuess(currentGuesses)}
-        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)} //TODO last 5
+        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)} 
         currentRowClassName={currentRowClass}
         setCurrentAppearances={setCurrentAppearances}
       />
-      {/* //TODO */}
       <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
       <InfoModal
         isOpen={isInfoModalOpen}
