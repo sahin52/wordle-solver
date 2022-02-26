@@ -30,7 +30,7 @@ import {
 import './App.css'
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { useAlert } from './context/AlertContext'
-import { Solver, SolverTest, Wordle } from './lib/solver'
+import { Solver, Wordle } from './lib/solver'
 import { WordsModal } from './components/modals/WordsModal'
 export type Appearance = 'green' | 'gray' | 'yellow'
 function App() {
@@ -104,7 +104,6 @@ function App() {
       setIsInfoModalOpen(true)
     }
   }, [])
-  SolverTest()
 
   useEffect(() => {
     if (isDarkMode) {

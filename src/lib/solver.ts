@@ -17,8 +17,11 @@ export function Solver(input: Wordle[]): string[] {
     input[i].word = input[i].word.toLowerCase()
   })
   possibleWords = filterGreens(possibleWords, input)
-
+  p("b4 gray")
+  first100(possibleWords);
   possibleWords = filterGrays(possibleWords,input);
+  p("after gray")
+  first100(possibleWords);
   // filter yellows
   possibleWords = filterYellows(possibleWords,input);
   // filter grays
@@ -82,33 +85,7 @@ export function Solver(input: Wordle[]): string[] {
   // )
   return possibleWords
 }
-export function SolverTest() {
-  // console.log('solver testing')
-  let w: Wordle[] = [
-    // { word: 'whore', appearances: ['gray', 'green', 'gray', 'gray', 'gray'] },
-    {
-      word: 'point',
-      appearances: ['gray', 'gray', 'yellow', 'gray', 'yellow'],
-    },
-    {
-      word: 'tatie',
-      appearances: ['green', 'gray', 'yellow', 'yellow', 'yellow'],
-    },
-    {
-      word: 'tiers',
-      appearances: ['green', 'green', 'yellow', 'gray', 'green'],
-    },
-    {
-      word: 'camel',
-      appearances: ['gray', 'gray', 'green', 'green', 'gray'],
-    },
 
-    // { word: 'shuts', appearances: ['gray', 'green', 'green', 'yellow', 'gray']},
-    // { word: 'swink', appearances: ['green', 'green', 'green', 'gray', 'gray'] },
-  ]
-  // let res = 
-  Solver(w)
-}
 
 function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
   type KonumVeHarf = {
@@ -163,20 +140,20 @@ function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
       p("isLetterYellow")
       p(isLetterYellow)
 
-      let totalNumberOfGreenAndYellow = word.split('').filter((l,k)=>appearances[k]!=='gray').length;
-      p("totalNumberOfGreenAndYellow")
-      p(totalNumberOfGreenAndYellow)
-      console.log("possibleWords - b4");
-      console.log(possibleWords);
-      console.log(letter);
-      possibleWords.slice(0,100).forEach(word=>{
-        p(word);
-        p(word.split(letter));
-        p(word.split(letter).length-1);
-        p((word.split(letter).length-1) >= totalNumberOfGreenAndYellow)
-      })
-      p(possibleWords.filter(word=>((word.split(letter).length-1) >= totalNumberOfGreenAndYellow )));
-      p(possibleWords.filter(word=>(word.split(letter).length-1)))
+      let totalNumberOfGreenAndYellow = word.split('').filter((l,k)=>l === letter&&appearances[k]!=='gray').length;
+      // p("totalNumberOfGreenAndYellow")
+      // p(totalNumberOfGreenAndYellow)
+      // console.log("possibleWords - b4");
+      // console.log(possibleWords);
+      // console.log(letter);
+      // possibleWords.slice(0,100).forEach(word=>{
+      //   p(word);
+      //   p(word.split(letter));
+      //   p(word.split(letter).length-1);
+      //   p((word.split(letter).length-1) >= totalNumberOfGreenAndYellow)
+      // })
+      // p(possibleWords.filter(word=>((word.split(letter).length-1) >= totalNumberOfGreenAndYellow )));
+      // p(possibleWords.filter(word=>(word.split(letter).length-1)))
       possibleWords = possibleWords.filter(word=>(word.split(letter).length-1) >= totalNumberOfGreenAndYellow );
       console.log("possibleWords -after");
       p(possibleWords);
@@ -184,19 +161,22 @@ function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
 
     // the yellows and the blacks with the yellows can't be in their location in the word
 
-    // // // // // for (let j = 0; j < letters.length; j++) {
-    // // // // //   const theletter = letters[j];
-    // // // // //   let yellowAndBlackPositionsOfThisLetter =   word.split('').map((wordletter,i)=>{if(wordletter===theletter && appearances[i]!=='green'){return i} return -1}).filter(num=>num!==-1);
-    // // // // //   console.log(theletter);
-    // // // // //   console.log("theletter");
+    for (let j = 0; j < letters.length; j++) {
+      const theletter = letters[j];
+      let yellowAndBlackPositionsOfThisLetter =   word.split('').map((wordletter,i)=>{if(wordletter===theletter && appearances[i]!=='green'){return i} return -1}).filter(num=>num!==-1);
+      console.log(theletter);
+      console.log("theletter");
 
-    // // // // //   console.log(yellowAndBlackPositionsOfThisLetter);
-    // // // // //   console.log("yellowAndBlackPositionsOfThisLetter");
-
+      console.log(yellowAndBlackPositionsOfThisLetter);
+      console.log("yellowAndBlackPositionsOfThisLetter");
 
       
-    // // // // //   ;
-    // // // // // }
+      for (let k = 0; k < yellowAndBlackPositionsOfThisLetter.length; k++) {
+        const position = yellowAndBlackPositionsOfThisLetter[k];
+        possibleWords = possibleWords.filter(word => word[position] !== theletter);
+      }
+      ;
+    }
     // 
 
   }
@@ -260,6 +240,6 @@ function filterGrayOneWord(possibleWords: string[], wordle: Wordle): string[] {
 }
 
 function first100(str:string[]){
-  // console.log(str.slice(500))
+  console.log(str.slice(500))
   return 
 }
