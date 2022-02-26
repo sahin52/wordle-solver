@@ -24,11 +24,7 @@ import {
   REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
 } from './constants/settings'
-import {
-  isWordInWordList,
-  isWinningWord,
-  solution,
-} from './lib/words'
+import { isWordInWordList, isWinningWord, solution } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
   loadGameStateFromLocalStorage,
@@ -149,7 +145,6 @@ function App() {
     setStoredIsHighContrastMode(isHighContrast)
   }
 
-
   useEffect(() => {
     if (isGameWon) {
       const winMessage =
@@ -171,8 +166,8 @@ function App() {
 
   const onChar = (value: string) => {
     if (
-      getCurGuessFromCurrentGuesses(currentGuesses).length < MAX_WORD_LENGTH && 
-      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES 
+      getCurGuessFromCurrentGuesses(currentGuesses).length < MAX_WORD_LENGTH &&
+      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES
     ) {
       setCurrentGuesses(`${currentGuesses}${value}`)
     }
@@ -182,13 +177,16 @@ function App() {
     setCurrentGuesses(currentGuesses.slice(0, -1))
   }
 
-  const onEnter = () => { //TODO
+  const onEnter = () => {
+    //TODO
     if (isGameWon || isGameLost) {
       return
     }
     if (
       getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 &&
-      !(getCurGuessFromCurrentGuesses(currentGuesses).length === MAX_WORD_LENGTH)
+      !(
+        getCurGuessFromCurrentGuesses(currentGuesses).length === MAX_WORD_LENGTH
+      )
     ) {
       showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE)
       setCurrentRowClass('jiggle')
@@ -197,7 +195,10 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    if (getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 && !isWordInWordList(getCurGuessFromCurrentGuesses(currentGuesses))) {
+    if (
+      getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 &&
+      !isWordInWordList(getCurGuessFromCurrentGuesses(currentGuesses))
+    ) {
       showErrorAlert(WORD_NOT_FOUND_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -206,25 +207,32 @@ function App() {
     }
 
     if (
-      (getCurGuessFromCurrentGuesses(currentGuesses).length === MAX_WORD_LENGTH || getCurGuessFromCurrentGuesses(currentGuesses).length === 0) &&
-      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES 
+      (getCurGuessFromCurrentGuesses(currentGuesses).length ===
+        MAX_WORD_LENGTH ||
+        getCurGuessFromCurrentGuesses(currentGuesses).length === 0) &&
+      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES
     ) {
-      if (currentGuesses.length === MAX_WORD_LENGTH){}
-      
+      if (currentGuesses.length === MAX_WORD_LENGTH) {
+      }
+
       //setCurrentGuesses('') //TODO
       console.log('guesses')
       console.log(getGueesesFromCurGuess(currentGuesses))
       // enforce hard mode - all guesses must contain all previously revealed letters
-      let wordles: Wordle[] = getGueesesFromCurGuess(currentGuesses).map((guess, i) => {
-        return { word: guess, appearances: appearances.slice(5 * i, 5 + 5 * i) }
-      })
+      let wordles: Wordle[] = getGueesesFromCurGuess(currentGuesses).map(
+        (guess, i) => {
+          return {
+            word: guess,
+            appearances: appearances.slice(5 * i, 5 + 5 * i),
+          }
+        }
+      )
       console.log('wordles')
       console.log(wordles)
       setPossibleWords(Solver(wordles))
       setIsWordsModalOpen(true)
-
     }
-  }//TODO
+  } //TODO
 
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -248,7 +256,7 @@ function App() {
       {/* //TODO */}
       <Grid
         guesses={getGueesesFromCurGuess(currentGuesses)}
-        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)}//TODO last 5
+        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)} //TODO last 5
         isRevealing={isRevealing}
         currentRowClassName={currentRowClass}
         setCurrentAppearances={setCurrentAppearances}
@@ -282,15 +290,17 @@ function App() {
 
 export default App
 
-function getGueesesFromCurGuess(currentGuesses: string){
-  let uzunluk = Math.floor(currentGuesses.length/MAX_WORD_LENGTH)
-  let res: string[] = [];
-  for(let i=0;i<uzunluk;i++){
-    res.push(currentGuesses.slice(i*MAX_WORD_LENGTH,(i+1)*MAX_WORD_LENGTH))
+function getGueesesFromCurGuess(currentGuesses: string) {
+  let uzunluk = Math.floor(currentGuesses.length / MAX_WORD_LENGTH)
+  let res: string[] = []
+  for (let i = 0; i < uzunluk; i++) {
+    res.push(
+      currentGuesses.slice(i * MAX_WORD_LENGTH, (i + 1) * MAX_WORD_LENGTH)
+    )
   }
-  return res;
+  return res
 }
-function getCurGuessFromCurrentGuesses(currentGuesses: string){
-  let len = currentGuesses.length%5;
-  return currentGuesses.slice(currentGuesses.length-len)
+function getCurGuessFromCurrentGuesses(currentGuesses: string) {
+  let len = currentGuesses.length % 5
+  return currentGuesses.slice(currentGuesses.length - len)
 }
