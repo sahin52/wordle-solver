@@ -1,8 +1,4 @@
-import {
-  InformationCircleIcon,
-  ChartBarIcon,
-  CogIcon,
-} from '@heroicons/react/outline'
+import { InformationCircleIcon, CogIcon } from '@heroicons/react/outline'
 import { useState, useEffect } from 'react'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
@@ -17,7 +13,6 @@ import {
   MAX_WORD_LENGTH,
   MAX_CHALLENGES,
   ALERT_TIME_MS,
-  GAME_LOST_INFO_DELAY,
 } from './constants/settings'
 import { isWordInWordList } from './lib/words'
 import {
@@ -37,8 +32,7 @@ function App() {
     '(prefers-color-scheme: dark)'
   ).matches
 
-  const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
-    useAlert()
+  const { showError: showErrorAlert } = useAlert()
   const [currentGuesses, setCurrentGuesses] = useState('')
   const [appearances, setAppearances] = useState<Appearance[]>([
     'gray',
