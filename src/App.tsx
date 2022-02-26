@@ -50,7 +50,7 @@ function App() {
 
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
-  const [currentGuess, setCurrentGuess] = useState('')
+  const [currentGuesses, setCurrentGuesses] = useState('')
   const [appearances, setAppearances] = useState<Appearance[]>([
     'gray',
     'gray',
@@ -113,23 +113,6 @@ function App() {
   )
 
   const [isRevealing, setIsRevealing] = useState(false)
-  const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage()
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
-    if (gameWasWon) {
-      setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
-        persist: true,
-      })
-    }
-    return loaded.guesses
-  })
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -166,9 +149,6 @@ function App() {
     setStoredIsHighContrastMode(isHighContrast)
   }
 
-  useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution })
-  }, [guesses])
 
   useEffect(() => {
     if (isGameWon) {
@@ -191,25 +171,24 @@ function App() {
 
   const onChar = (value: string) => {
     if (
-      currentGuess.length < MAX_WORD_LENGTH &&
-      guesses.length < MAX_CHALLENGES &&
-      !isGameWon
+      getCurGuessFromCurrentGuesses(currentGuesses).length < MAX_WORD_LENGTH && 
+      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES 
     ) {
-      setCurrentGuess(`${currentGuess}${value}`)
+      setCurrentGuesses(`${currentGuesses}${value}`)
     }
   }
 
   const onDelete = () => {
-    setCurrentGuess(currentGuess.slice(0, -1))
+    setCurrentGuesses(currentGuesses.slice(0, -1))
   }
 
-  const onEnter = () => {
+  const onEnter = () => { //TODO
     if (isGameWon || isGameLost) {
       return
     }
     if (
-      currentGuess.length !== 0 &&
-      !(currentGuess.length === MAX_WORD_LENGTH)
+      getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 &&
+      !(getCurGuessFromCurrentGuesses(currentGuesses).length === MAX_WORD_LENGTH)
     ) {
       showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE)
       setCurrentRowClass('jiggle')
@@ -218,7 +197,7 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    if (currentGuess.length !== 0 && !isWordInWordList(currentGuess)) {
+    if (getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 && !isWordInWordList(getCurGuessFromCurrentGuesses(currentGuesses))) {
       showErrorAlert(WORD_NOT_FOUND_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -226,20 +205,17 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    const winningWord = isWinningWord(currentGuess)
-
     if (
-      (currentGuess.length === MAX_WORD_LENGTH || currentGuess.length === 0) &&
-      guesses.length < MAX_CHALLENGES &&
-      !isGameWon
+      (getCurGuessFromCurrentGuesses(currentGuesses).length === MAX_WORD_LENGTH || getCurGuessFromCurrentGuesses(currentGuesses).length === 0) &&
+      getGueesesFromCurGuess(currentGuesses).length < MAX_CHALLENGES 
     ) {
-      if (currentGuess.length === MAX_WORD_LENGTH)
-        setGuesses([...guesses, currentGuess])
-      setCurrentGuess('')
+      if (currentGuesses.length === MAX_WORD_LENGTH){}
+      
+      //setCurrentGuesses('') //TODO
       console.log('guesses')
-      console.log(guesses)
+      console.log(getGueesesFromCurGuess(currentGuesses))
       // enforce hard mode - all guesses must contain all previously revealed letters
-      let wordles: Wordle[] = guesses.map((guess, i) => {
+      let wordles: Wordle[] = getGueesesFromCurGuess(currentGuesses).map((guess, i) => {
         return { word: guess, appearances: appearances.slice(5 * i, 5 + 5 * i) }
       })
       console.log('wordles')
@@ -247,21 +223,8 @@ function App() {
       setPossibleWords(Solver(wordles))
       setIsWordsModalOpen(true)
 
-      if (winningWord) {
-        setStats(addStatsForCompletedGame(stats, guesses.length))
-        return setIsGameWon(true)
-      }
-
-      if (guesses.length === MAX_CHALLENGES - 1) {
-        setStats(addStatsForCompletedGame(stats, guesses.length + 1))
-        setIsGameLost(true)
-        showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
-          persist: true,
-          delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
-        })
-      }
     }
-  }
+  }//TODO
 
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -284,8 +247,8 @@ function App() {
       </div>
       {/* //TODO */}
       <Grid
-        guesses={guesses}
-        currentGuess={currentGuess}
+        guesses={getGueesesFromCurGuess(currentGuesses)}
+        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)}//TODO last 5
         isRevealing={isRevealing}
         currentRowClassName={currentRowClass}
         setCurrentAppearances={setCurrentAppearances}
@@ -295,15 +258,6 @@ function App() {
       <InfoModal
         isOpen={isInfoModalOpen}
         handleClose={() => setIsInfoModalOpen(false)}
-      />
-      <StatsModal
-        isOpen={isStatsModalOpen}
-        handleClose={() => setIsStatsModalOpen(false)}
-        guesses={guesses}
-        gameStats={stats}
-        isGameLost={isGameLost}
-        isGameWon={isGameWon}
-        handleShare={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
       />
       <WordsModal
         isOpen={isWordsModalOpen}
@@ -327,3 +281,16 @@ function App() {
 }
 
 export default App
+
+function getGueesesFromCurGuess(currentGuesses: string){
+  let uzunluk = Math.floor(currentGuesses.length/MAX_WORD_LENGTH)
+  let res: string[] = [];
+  for(let i=0;i<uzunluk;i++){
+    res.push(currentGuesses.slice(i*MAX_WORD_LENGTH,(i+1)*MAX_WORD_LENGTH))
+  }
+  return res;
+}
+function getCurGuessFromCurrentGuesses(currentGuesses: string){
+  let len = currentGuesses.length%5;
+  return currentGuesses.slice(currentGuesses.length-len)
+}
