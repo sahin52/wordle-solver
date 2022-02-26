@@ -3,7 +3,7 @@ import {
   ChartBarIcon,
   CogIcon,
 } from '@heroicons/react/outline'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
 import { InfoModal } from './components/modals/InfoModal'
@@ -16,7 +16,6 @@ import {
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
   CORRECT_WORD_MESSAGE,
-  HARD_MODE_ALERT_MESSAGE,
 } from './constants/strings'
 import {
   MAX_WORD_LENGTH,
@@ -29,7 +28,6 @@ import {
   isWordInWordList,
   isWinningWord,
   solution,
-  findFirstUnusedReveal,
 } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
@@ -161,14 +159,6 @@ function App() {
   const handleDarkMode = (isDark: boolean) => {
     setIsDarkMode(isDark)
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  }
-
-  const handleHardMode = (isHard: boolean) => {
-    if (guesses.length === 0 || localStorage.getItem('gameMode') === 'hard') {
-      localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
-    } else {
-      showErrorAlert(HARD_MODE_ALERT_MESSAGE)
-    }
   }
 
   const handleHighContrastMode = (isHighContrast: boolean) => {

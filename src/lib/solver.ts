@@ -23,7 +23,7 @@ export function Solver(input: Wordle[]): string[] {
   let mapped = input.map((i) => {
     let r: string[] = []
     i.word.split('').forEach((char, k) => {
-      if (i.appearances[k] == 'gray') {
+      if (i.appearances[k] === 'gray') {
         r.push(char)
       }
     })
@@ -47,7 +47,6 @@ export function Solver(input: Wordle[]): string[] {
 
   for (let wordle of input) {
     // remove yellows
-    let word = wordle.word
     for (let ii = 0; ii < wordle.appearances.length; ii++) {
       if (wordle.appearances[ii] === 'yellow') {
         possibleWords = possibleWords.filter(
@@ -104,7 +103,8 @@ export function SolverTest() {
     // { word: 'shuts', appearances: ['gray', 'green', 'green', 'yellow', 'gray']},
     // { word: 'swink', appearances: ['green', 'green', 'green', 'gray', 'gray'] },
   ]
-  let res = Solver(w)
+  // let res = 
+  Solver(w)
 }
 
 function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
@@ -140,7 +140,7 @@ function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
     return greensPlaces
   }
 }
-function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
+/*function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
   // case 1 hepsi sarı: o harfin hiçbir yeri doğru değil, toplam sayısı da belirtilen sayı kadar
   // case 2 sarı + siyah: harf sayısı sarı kadar, ancak hiçbirinin yeri doğru değil
   // case 3 sarı + yeşil, bir tanesinin yeri doğru, diğerinin yeri yanlış ama toplam sayı sarı + yeşil kadar
@@ -162,4 +162,4 @@ function filterBlacks(possibleWords: string[], input: Wordle[]): string[] {
   // eğer aynı harften bir tane sarı bir tane siyah varsa
 
   return []
-}
+}*/

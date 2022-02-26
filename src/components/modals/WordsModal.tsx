@@ -1,5 +1,4 @@
 import { BaseModal } from './BaseModal'
-import { SettingsToggle } from './SettingsToggle'
 
 type Props = {
   isOpen: boolean
@@ -12,8 +11,6 @@ type Props = {
 export const WordsModal = ({
   isOpen,
   handleClose,
-  isDarkMode,
-  handleDarkMode,
   possibleWords,
 }: Props) => {
   return (
