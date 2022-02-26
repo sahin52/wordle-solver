@@ -57,7 +57,7 @@ export const Cell = ({
   }
 
   return (
-    <div
+    <button
       className={classes}
       onClick={() => {
         if (setCurrentAppearances) {
@@ -70,6 +70,6 @@ export const Cell = ({
       <div className="letter-container" style={{ animationDelay }}>
         {value}
       </div>
-    </div>
+    </button>
   )
 }

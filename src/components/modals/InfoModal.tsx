@@ -10,56 +10,16 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
   return (
     <BaseModal title="How to play" isOpen={isOpen} handleClose={handleClose}>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        Guess the word in 6 tries. After each guess, the color of the tiles will
-        change to show how close your guess was to the word.
+        Write the word and click on the squares to change their color.
       </p>
 
-      <div className="flex justify-center mb-1 mt-4">
-        <Cell
-          isCompleted={true}
-          value="W"
-          status="correct"
-        />
-        <Cell value="E" />
-        <Cell value="A" />
-        <Cell value="R" />
-        <Cell value="Y" />
+      <div className='pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8'>
+        <img className='content-center' src="./howtouse.gif" alt="how to use"></img>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter W is in the word and in the correct spot.
-      </p>
-
-      <div className="flex justify-center mb-1 mt-4">
-        <Cell value="P" />
-        <Cell value="I" />
-        <Cell
-          isCompleted={true}
-          value="L"
-          status="present"
-        />
-        <Cell value="O" />
-        <Cell value="T" />
-      </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter L is in the word but in the wrong spot.
-      </p>
-
-      <div className="flex justify-center mb-1 mt-4">
-        <Cell value="V" />
-        <Cell value="A" />
-        <Cell value="G" />
-        <Cell isCompleted={true} value="U" status="absent" />
-        <Cell value="E" />
-      </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter U is not in the word in any spot.
-      </p>
-
       <p className="mt-6 italic text-sm text-gray-500 dark:text-gray-300">
-        This is an open source version of the word guessing game we all know and
-        love -{' '}
+        This project is developed by Kasap, with the help of other open source projects on Github -{' '}
         <a
-          href="https://github.com/cwackerfuss/react-wordle"
+          href="https://github.com/sahin52/wordle-solver"
           className="underline font-bold"
         >
           check out the code here
