@@ -27,7 +27,8 @@
     "lint": "prettier --check src",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pretty": "prettier --write \"./**/*.{tsx,json}\""
   },
   "eslintConfig": {
     "extends": [

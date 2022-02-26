@@ -8,12 +8,8 @@ type Props = {
   possibleWords: string[]
 }
 
-export const WordsModal = ({
-  isOpen,
-  handleClose,
-  possibleWords,
-}: Props) => {
-  const shuffled = possibleWords.sort(() => 0.5 - Math.random());
+export const WordsModal = ({ isOpen, handleClose, possibleWords }: Props) => {
+  const shuffled = possibleWords.sort(() => 0.5 - Math.random())
   return (
     <BaseModal title="Possible Words" isOpen={isOpen} handleClose={handleClose}>
       <div className="grid-cols-2 gap-4">

@@ -8,12 +8,8 @@ type Props = {
   setCurrentAppearances: (i: number, j: number, appearance: Appearance) => void
 }
 
-export const CompletedRow = ({
-  guess,
-  keyy,
-  setCurrentAppearances,
-}: Props) => {
-  const statuses:CharStatus[] = [1,2,3,4,5].map(i=>'absent')
+export const CompletedRow = ({ guess, keyy, setCurrentAppearances }: Props) => {
+  const statuses: CharStatus[] = [1, 2, 3, 4, 5].map((i) => 'absent')
   return (
     <div className="flex justify-center mb-1">
       {guess.split('').map((letter, i) => (

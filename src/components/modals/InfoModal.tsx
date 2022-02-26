@@ -13,17 +13,24 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         Write the word and click on the squares to change their color.
       </p>
 
-      <div className='pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8'>
-        <img className='content-center' src="./howtouse.gif" alt="how to use"></img>
+      <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <img
+          className="content-center"
+          src="./howtouse.gif"
+          alt="how to use"
+        ></img>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
-        And Hit Enter!
-      </p>
-      <div className='pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8'>
-        <img className='content-center' src="./clickonenter.gif" alt="how to use"></img>
+      <p className="text-sm text-gray-500 dark:text-gray-300">And Hit Enter!</p>
+      <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <img
+          className="content-center"
+          src="./clickonenter.gif"
+          alt="how to use"
+        ></img>
       </div>
       <p className="mt-6 italic text-sm text-gray-500 dark:text-gray-300">
-        This project is developed by Kasap, with the help of other open source projects on Github -{' '}
+        This project is developed by Kasap, with the help of other open source
+        projects on Github -{' '}
         <a
           href="https://github.com/sahin52/wordle-solver"
           className="underline font-bold"

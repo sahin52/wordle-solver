@@ -10,9 +10,8 @@ import { InfoModal } from './components/modals/InfoModal'
 import { SettingsModal } from './components/modals/SettingsModal'
 import {
   GAME_TITLE,
-
   NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE
+  WORD_NOT_FOUND_MESSAGE,
 } from './constants/strings'
 import {
   MAX_WORD_LENGTH,
@@ -95,8 +94,6 @@ function App() {
     getStoredIsHighContrastMode()
   )
 
-
-
   useEffect(() => {
     // if no game state on load,
     // show the user the how-to info modal
@@ -128,8 +125,6 @@ function App() {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
   }
-
-
 
   const onChar = (value: string) => {
     if (
@@ -178,8 +173,6 @@ function App() {
       if (currentGuesses.length === MAX_WORD_LENGTH) {
       }
 
-
-
       // enforce hard mode - all guesses must contain all previously revealed letters
       let wordles: Wordle[] = getGueesesFromCurGuess(currentGuesses).map(
         (guess, i) => {
@@ -192,7 +185,7 @@ function App() {
       setPossibleWords(Solver(wordles))
       setIsWordsModalOpen(true)
     }
-  } 
+  }
 
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -211,7 +204,7 @@ function App() {
       </div>
       <Grid
         guesses={getGueesesFromCurGuess(currentGuesses)}
-        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)} 
+        currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)}
         currentRowClassName={currentRowClass}
         setCurrentAppearances={setCurrentAppearances}
       />
