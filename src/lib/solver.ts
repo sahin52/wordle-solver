@@ -19,10 +19,8 @@ export function Solver(input: Wordle[]): string[] {
   possibleWords = filterGreens(possibleWords, input)
 
   possibleWords = filterGrays(possibleWords,input);
-  console.log("result")
-  console.log(possibleWords);
   // filter yellows
-  // possibleWords = filterYellows(possibleWords,input);
+  possibleWords = filterYellows(possibleWords,input);
   // filter grays
 
   // let mapped = input.map((i) => {
@@ -120,11 +118,12 @@ function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
   //getGreensPlaces
   let greensAndPlaces = getGreensAndPlaces(wordles)
 
-  greensAndPlaces.forEach((greenAndPlace) => {
+  for (let i = 0; i < greensAndPlaces.length; i++) {
+    const greenAndPlace = greensAndPlaces[i];
     possibleWords = possibleWords.filter(
       (word) => word[greenAndPlace.konum] === greenAndPlace.harf
     )
-  })
+  }
   return possibleWords
 
   function getGreensAndPlaces(wordles: Wordle[]) {
@@ -146,6 +145,61 @@ function filterGreens(possibleWords: string[], wordles: Wordle[]): string[] {
   }
 }
 function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
+
+  for (let i = 0; i < input.length; i++) {
+    const wordle = input[i];
+    let word = wordle.word;
+    let appearances = wordle.appearances;
+
+    let letters = Array.from((new Set(word.split(''))).values());
+
+    //total number is greater than or equal to yellow + green
+    for (let j = 0; j < letters.length; j++) {
+      const letter = letters[j];
+      let isLetterYellow = word.split('').filter((l,k)=>appearances[k]==='yellow' && l === letter).length!==0;
+      if(!isLetterYellow) continue;
+      p("letter")
+      p(letter)
+      p("isLetterYellow")
+      p(isLetterYellow)
+
+      let totalNumberOfGreenAndYellow = word.split('').filter((l,k)=>appearances[k]!=='gray').length;
+      p("totalNumberOfGreenAndYellow")
+      p(totalNumberOfGreenAndYellow)
+      console.log("possibleWords - b4");
+      console.log(possibleWords);
+      console.log(letter);
+      possibleWords.slice(0,100).forEach(word=>{
+        p(word);
+        p(word.split(letter));
+        p(word.split(letter).length-1);
+        p((word.split(letter).length-1) >= totalNumberOfGreenAndYellow)
+      })
+      p(possibleWords.filter(word=>((word.split(letter).length-1) >= totalNumberOfGreenAndYellow )));
+      p(possibleWords.filter(word=>(word.split(letter).length-1)))
+      possibleWords = possibleWords.filter(word=>(word.split(letter).length-1) >= totalNumberOfGreenAndYellow );
+      console.log("possibleWords -after");
+      p(possibleWords);
+    }
+
+    // the yellows and the blacks with the yellows can't be in their location in the word
+
+    // // // // // for (let j = 0; j < letters.length; j++) {
+    // // // // //   const theletter = letters[j];
+    // // // // //   let yellowAndBlackPositionsOfThisLetter =   word.split('').map((wordletter,i)=>{if(wordletter===theletter && appearances[i]!=='green'){return i} return -1}).filter(num=>num!==-1);
+    // // // // //   console.log(theletter);
+    // // // // //   console.log("theletter");
+
+    // // // // //   console.log(yellowAndBlackPositionsOfThisLetter);
+    // // // // //   console.log("yellowAndBlackPositionsOfThisLetter");
+
+
+      
+    // // // // //   ;
+    // // // // // }
+    // 
+
+  }
   // case 1 hepsi sarı: o harfin hiçbir yeri doğru değil, toplam sayısı da belirtilen sayı kadar
   // case 2 sarı + siyah: harf sayısı sarı kadar, ancak hiçbirinin yeri doğru değil
   // case 3 sarı + yeşil, bir tanesinin yeri doğru, diğerinin yeri yanlış ama toplam sayı sarı + yeşil kadar
@@ -154,7 +208,7 @@ function filterYellows(possibleWords: string[], input: Wordle[]): string[] {
   //sayacaksın, saydıktan sonra
   // eğer aynı harften bir tane sarı bir tane siyah varsa
 
-  return []
+  return possibleWords
 }
 
 function filterGrays(possibleWords: string[], input: Wordle[]): string[] {
@@ -181,16 +235,18 @@ function filterGrayOneWord(possibleWords: string[], wordle: Wordle): string[] {
   let letters = Array.from((new Set(word.split(''))).values())
   console.log(letters)
   for(let letter of letters){
-    let hicgecmiyormu = appearances.filter((appearance,i)=>word[i]===letter && appearance!=='gray').length===0;
-    console.log(letter);
-    console.log(hicgecmiyormu);
-    if(hicgecmiyormu){
+    let hicgecmiyormu_tumharfinstancelarıGraymi = appearances.filter((appearance,i)=>word[i]===letter && appearance!=='gray').length===0;
+    // console.log(letter);
+    // console.log(hicgecmiyormu_tumharfinstancelarıGraymi);
+    if(hicgecmiyormu_tumharfinstancelarıGraymi){
       p("hic gecmiyor "+letter)
       f()
       possibleWords = possibleWords.filter(word=>!word.includes(letter));
       f()
     }else{
       let birTaneOlsunGriVarMi = appearances.filter((appearance,i)=>word[i]===letter && appearance==='gray').length!==0;
+      p(birTaneOlsunGriVarMi)
+      p("birTaneOlsunGriVarMi")
       if(birTaneOlsunGriVarMi){
         let griDisindakilerinSayisi = appearances.filter((appearance,i)=>word[i]===letter && appearance !== 'gray').length
         possibleWords = possibleWords.filter(word=>(word.split(letter).length-1) === griDisindakilerinSayisi );
@@ -204,6 +260,6 @@ function filterGrayOneWord(possibleWords: string[], wordle: Wordle): string[] {
 }
 
 function first100(str:string[]){
-  console.log(str.slice(500))
+  // console.log(str.slice(500))
   return 
 }
