@@ -16,7 +16,6 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
 
       <div className="flex justify-center mb-1 mt-4">
         <Cell
-          isRevealing={true}
           isCompleted={true}
           value="W"
           status="correct"
@@ -34,7 +33,6 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="P" />
         <Cell value="I" />
         <Cell
-          isRevealing={true}
           isCompleted={true}
           value="L"
           status="present"
@@ -50,7 +48,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="V" />
         <Cell value="A" />
         <Cell value="G" />
-        <Cell isRevealing={true} isCompleted={true} value="U" status="absent" />
+        <Cell isCompleted={true} value="U" status="absent" />
         <Cell value="E" />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">

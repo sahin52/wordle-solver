@@ -23,7 +23,6 @@ import {
 import { isWordInWordList } from './lib/words'
 import {
   loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
   getStoredIsHighContrastMode,
 } from './lib/localStorage'
@@ -79,18 +78,12 @@ function App() {
     let temp = appearances
     temp[i * 5 + j] = appearance
     setAppearances(temp)
-    console.log('temp')
-    console.log(temp)
-    console.log('appearances')
-    console.log(appearances)
   }
   const [possibleWords, setPossibleWords] = useState<string[]>([])
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isWordsModalOpen, setIsWordsModalOpen] = useState(false)
-  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
-  const [isGameLost, setIsGameLost] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme')
       ? localStorage.getItem('theme') === 'dark'
@@ -102,7 +95,6 @@ function App() {
     getStoredIsHighContrastMode()
   )
 
-  const [isRevealing, setIsRevealing] = useState(false)
 
 
   useEffect(() => {
@@ -138,14 +130,7 @@ function App() {
     setStoredIsHighContrastMode(isHighContrast)
   }
 
-  useEffect(() => {
 
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true)
-      }, GAME_LOST_INFO_DELAY)
-    }
-  }, [isGameLost, showSuccessAlert])
 
   const onChar = (value: string) => {
     if (
@@ -161,10 +146,6 @@ function App() {
   }
 
   const onEnter = () => {
-    //TODO
-    if (isGameLost) {
-      return
-    }
     if (
       getCurGuessFromCurrentGuesses(currentGuesses).length !== 0 &&
       !(
@@ -227,10 +208,6 @@ function App() {
           className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
           onClick={() => setIsInfoModalOpen(true)}
         />
-        <ChartBarIcon
-          className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-          onClick={() => setIsStatsModalOpen(true)}
-        />
         <CogIcon
           className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
           onClick={() => setIsSettingsModalOpen(true)}
@@ -240,7 +217,6 @@ function App() {
       <Grid
         guesses={getGueesesFromCurGuess(currentGuesses)}
         currentGuess={getCurGuessFromCurrentGuesses(currentGuesses)} //TODO last 5
-        isRevealing={isRevealing}
         currentRowClassName={currentRowClass}
         setCurrentAppearances={setCurrentAppearances}
       />

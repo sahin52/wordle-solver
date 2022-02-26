@@ -7,7 +7,6 @@ import { useState } from 'react'
 
 type Props = {
   value?: string
-  isRevealing?: boolean
   isCompleted?: boolean
   position?: number
   row?: number
@@ -18,7 +17,6 @@ type Props = {
 
 export const Cell = ({
   value,
-  isRevealing,
   isCompleted,
   position = 0,
   row,
@@ -27,7 +25,6 @@ export const Cell = ({
   status,
 }: Props) => {
   const isFilled = value && !isCompleted
-  const shouldReveal = isRevealing && isCompleted
   const animationDelay = `${position * REVEAL_TIME_MS}ms`
   const isHighContrast = getStoredIsHighContrastMode()
   const [currentColor, setCurrentColor] = useState<Appearance>('gray')
@@ -47,7 +44,6 @@ export const Cell = ({
     'present shadowed bg-yellow-500 text-white border-yellow-500':
       currentColor === 'yellow' && !isHighContrast,
     'cell-fill-animation': isFilled,
-    'cell-reveal': shouldReveal,
   }
   const classes = classnames(
     'w-14 h-14 border-solid border-2 flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',

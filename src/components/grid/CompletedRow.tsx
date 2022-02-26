@@ -4,14 +4,12 @@ import { Cell } from './Cell'
 
 type Props = {
   guess: string
-  isRevealing?: boolean
   keyy: number
   setCurrentAppearances: (i: number, j: number, appearance: Appearance) => void
 }
 
 export const CompletedRow = ({
   guess,
-  isRevealing,
   keyy,
   setCurrentAppearances,
 }: Props) => {
@@ -26,7 +24,6 @@ export const CompletedRow = ({
           value={letter}
           status={statuses[i]}
           position={i}
-          isRevealing={isRevealing}
           isCompleted
           setCurrentAppearances={setCurrentAppearances}
         />
